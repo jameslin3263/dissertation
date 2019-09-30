@@ -1,0 +1,30 @@
+{
+  "homepage":"http://jameslin3263.github.io/dissertation",
+  "name": "dissertation",
+  "version": "1.0.0",
+  "description": "dissertation-project",
+  "main": "index.js",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "nodemon server.js -e html,js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "james",
+  "license": "ISC",
+  "dependencies": {
+    "animejs": "^3.0.1",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "http": "0.0.0",
+    "jquery": "^3.3.1",
+    "morgan": "^1.9.1",
+    "reload": "^2.4.0",
+    "semantic-ui-calendar": "0.0.8"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.1.1",
+    "nodemon": "^1.18.10"
+  }
+}

@@ -1,0 +1,747 @@
+<div>
+    <h1>Selection sorting algorithm</h1>
+    <div class="main">
+        <div class="one-forth pseudocode">            
+            <div id='create-swap-var'>var <span>'temp'</span> &nbsp&nbsp&nbsp&nbsp// for swap<br>
+                var <span>'minIndex'</span> &nbsp&nbsp&nbsp&nbsp// for selecting the smallest element<br><br></div>
+
+            <div id='first-loop'>for var <span>'i = 0'</span> to limit <span>'array.length - 1'</span><br></div>
+            <div>
+                <div id='assign-minInd'><span>'minIndex'</span> = <span>'i'</span><br><br></div>
+                <div id='second-loop'>for var <span>'j = i + 1'</span> to limit the unsorted part of array<br></div>
+                <div id='find-min-ind'>
+                    If <span>array[j]</span> < <span>array['minIndex']</span> then 
+                </div>    
+                    <div id='re-assign-minInd'><span>'minIndex'</span> = <span>'j++'</span><br></div>
+            </div><br>
+
+            <div id='assign-temp'><span>'temp'</span> = <span>array['minIndex']</span><br></div>
+            <div id='assign-minIndx'><span>array['minIndex']</span> = <span>array[i]</span><br></div>
+            <div id='assign-arrayi'><span>array[i]</span> = <span>'temp'</span><br><br></div>
+
+            <div id='fin-loop'>End</div>
+        </div>
+        <div class="one-forth animation">
+            <div id="digit">
+
+            </div>
+            <div id='min-val'>
+                
+            </div>
+        </div>
+        
+        <div class="one-forth describtion">
+            <div>
+                <p>Selection sort will begin from scanning the unsorted array to find out the smallest element and set 
+                    it to the first element then set the original first element to the position where the smallest element 
+                    previous is. </p>
+                <p>After this, it will scan all unsorted part of the array again then figure out the smallest element
+                     and exchange its position to the element, which just behind the sorted array, and it will move to
+                      that smallest element’s original place.</p>
+                <p>This process will repeat many times until the array becomes ascending order.</p>
+            </div>
+        </div>
+        <div class="one-forth top-right">  
+            <div> 
+            <div id="buttons">
+                    <button id='sel-handle' onclick="stepMode()" class="ui button">   
+                        Step-by-Step
+                    </button>
+                    <button id='sel-film' onclick="continueMode()" class="ui button">
+                        Continuous
+                    </button>
+                    <button id='sel-play' onclick="letPlay()" class="ui button">
+                        <i class="play icon"></i>
+                        Play
+                    </button>
+                    <button id='sel-pause' onclick="pauseAni()" class="ui button">
+                        <i class="pause icon"></i>
+                        Pause
+                    </button>
+                    <button id='sel-pre' onclick="preLoop()" class="ui button">
+                        <i class="step backward icon"></i>
+                        Pre
+                    </button>
+                    <button id='sel-next' onclick="nextLoop()" class="ui button">
+                        <i class="step forward icon"></i>
+                        Next
+                    </button>
+                    <button id='sel-clearHandle' onclick="clearDataInStep()" class="ui button">
+                        <i class="trash icon"></i>
+                        Clear
+                    </button>
+                    <button id='sel-clearFilm' onclick="clearDataInContinue()" class="ui button">
+                            <i class="trash icon"></i>
+                        Clear
+                    </button>
+                    <button id='sel-reset' onclick="reset()" class="ui button">
+                        <i class="redo icon"></i>
+                        Reset
+                    </button>   
+                </div>  
+                <div id="inputs">
+                    <div id="input-error">Please insert value to input.</div>
+                    <div id='input-handler'>
+                    <div class="ui eight wide input">     
+                        <input id="array-input" type="text">
+                    </div>
+                    <button class="ui pink button"onclick="generateRandomArray()">Random</button>
+                    <button id='generateArr' class="ui primary button" onclick="generateArray()">Generate</button>
+                </div>
+                </div>
+            <div id="color-panel">
+                <div id='color-panel-content'>
+                <h2>Color panel</h2>
+                <div>
+                    <div>Note: The colors' meaning in the animation are relative to the bottom explantion</div><br>
+                    <div id="black">
+                        <span>Black Box: </span> Unsorted part
+                    </div>
+                    <div id="green">
+                        <span>Green Box: </span> Sorted part
+                    </div>
+                    <div id="red">
+                        <span>Red Box: </span> Current comparison
+                    </div>
+                    <div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var count = 0
+    var step = 0
+    var initialArr = []
+    
+    function continueMode() {
+        $('#sel-play').show()
+        $('#sel-pause').hide()
+        $('#sel-stop').show()
+        $('#sel-film').hide()
+        $('#sel-pre').hide()
+        $('#sel-next').hide()
+        $('#sel-handle').show()
+        $('#input-handler').show()
+        $('#sel-reset').show()
+        $('#sel-clearFilm').show()
+        $('#sel-clearHandle').hide()
+        generateArr = true
+        $('#input-error')[0].textContent = 'Please insert EIGHT numbers or click Random button.'
+        $('#input-error')[0].style.color = 'black'
+        reset()
+    }
+
+        function stepMode () {
+            $('#sel-pre').show()
+            $('#sel-next').show()
+            $('#sel-stop').hide()
+            $('#sel-film').show()
+            $('#sel-handle').hide()
+            $('#sel-play').hide()
+            $('#sel-pause').hide()
+            $('#sel-reset').show()
+            $('#input-handler').show()
+            $('#sel-clearHandle').show()
+            $('#sel-clearFilm').hide()
+            generateArr = true
+            step = 0
+            $('#input-error')[0].textContent = 'Please insert EIGHT numbers or click Random button.'
+            $('#input-error')[0].style.color = 'black'
+            reset()
+        }
+
+        function clearDataInStep() {
+            $('#generateArr').show()
+            $('.num-card').remove()
+            step = 0
+          
+            generateArr = true
+            $('#input-error')[0].textContent = 'Clear'
+            $('#input-error')[0].style.color = 'red'
+        }
+
+        function clearDataInContinue() {
+            clearAllbgc()
+            $('#generateArr').show()
+            $('.num-card').remove()
+            
+            play = false
+            generateArr = true
+            firstClick = true
+            $('#sel-play').show()
+            $('#sel-pause').hide()
+            $('#input-error')[0].textContent = 'Clear'
+            $('#input-error')[0].style.color = 'red'
+        }
+
+        function clearAllbgc () {
+            $('#create-swap-var')[0].style.backgroundColor = '#F0AD4E'
+            $('#first-loop')[0].style.backgroundColor = '#F0AD4E'
+            $('#assign-minInd')[0].style.backgroundColor = '#F0AD4E'
+            $('#second-loop')[0].style.backgroundColor = '#F0AD4E'
+            $('#find-min-ind')[0].style.backgroundColor = '#F0AD4E'
+            $('#re-assign-minInd')[0].style.backgroundColor = '#F0AD4E'
+            $('#assign-temp')[0].style.backgroundColor = '#F0AD4E'
+            $('#assign-minIndx')[0].style.backgroundColor = '#F0AD4E'
+            $('#assign-arrayi')[0].style.backgroundColor = '#F0AD4E'
+            $('#fin-loop')[0].style.backgroundColor = '#F0AD4E'
+        }
+
+        function reset() {
+            if (initialArr.length != 0) {
+                clearAllbgc()
+                play = false
+                generateArr = true
+                firstClick = true
+                $('.num-card').remove()
+                step = 0
+                for (let i = 0; i < 8 ;i++) {
+                    let context = `<div id='${i}' class='num-card'>${initialArr[i]}</div>`
+                    $('#digit').append(context)
+                }
+                $('#input-error')[0].textContent = 'Reset'
+                $('#input-error')[0].style.color = 'red'
+                $('#generateArr').hide()
+            }
+        }
+
+function generateArray() {
+    let msg = ''
+    
+    if ($('#array-input')[0].value == "") {
+        msg = "The input cannot be empty, Please insert value!"
+        $('#input-error')[0].style.color = 'red'
+    } else if ($('#array-input')[0].value.split(",").length < 8) {
+        msg = "Please insert at least EIGHT value!"
+        $('#input-error')[0].style.color = 'red'
+    } else if ($('#array-input')[0].value.split(",").length > 8) {
+        msg = "Please do not insert over EIGHT value!"
+        $('#input-error')[0].style.color = 'red'
+    }
+
+    if ($('#array-input')[0].value.split(",").length == 8) {
+        let arr = $('#array-input')[0].value.split(",")
+        const patt = /[0-9]+/
+        let checkType = true
+
+        arr.map(num => {
+            if (!num.match(patt)) checkType = false
+        })
+
+        if (checkType == false) {
+            msg = "Please insert Integer!"
+            $('#input-error')[0].style.color = 'red'
+        } else {
+            initialArr = arr
+            msg = "Valid"
+            $('#input-error')[0].style.color = 'green'
+            $('.num-card').remove()
+            for (let i = 0; i < 8 ;i++) {
+                let context = `<div id='${i}' class='num-card'>${arr[i]}</div>`
+                $('#digit').append(context)
+            }
+            count = 0
+            stepArr = []
+            firstClick = true
+            play = false
+            generateArr = false
+            clearAllbgc()
+            selectionSort()
+            $('#generateArr').hide()
+        }
+    }
+    $('#input-error')[0].textContent = msg
+
+}
+
+function generateRandomArray() {
+    let arr = []
+    for (let i = 0; i < 8; i++) {
+        // reference from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+        arr.push(Math.floor(Math.random() * Math.floor(100)))
+    }
+    $('#array-input')[0].value = arr
+}
+
+function letPlay() {
+    clearAllbgc()
+    if (!$('.num-card')[0]) {
+        $('#input-error')[0].textContent = 'Please generate the array first.'
+        $('#input-error')[0].style.color = 'red'
+    } else {
+        play = true 
+        generateArr = false
+        $('#input-error')[0].textContent = 'Play'
+        $('#input-error')[0].style.color = 'green'
+        if (firstClick) selSort()
+        firstClick = false
+
+        $('#sel-pause').show()
+        $('#sel-play').hide()
+    }
+}
+
+function pauseAni() {
+    play = false
+    $('#input-error')[0].textContent = 'Pause'
+    $('#input-error')[0].style.color = 'red'
+    $('#sel-play').show()
+    $('#sel-pause').hide()
+}
+
+
+function formatSel (dom, type, col) {
+    if (type == 'border') {
+        $(dom)[0].style.borderColor = col
+    } else if (type == 'bgc') {
+        $(dom)[0].style.backgroundColor = col
+    }
+}
+
+
+var stepArr = []
+
+async function selSort() {
+    if (play == false) play = true 
+    if (play == true) {
+
+        if (!$('.num-card')[0]) {
+            $('#input-error')[0].textContent = 'Please generate the array first.'
+            $('#input-error')[0].style.color = 'red'
+        } else if ($('.num-card')[0]) {
+        let unsortedArrVal = []
+        let unsortedArr = []
+        let arrDom = [...$('#digit')[0].children]
+        let temp = 1
+        let minIndex = 1
+        
+        arrDom.map(idx => unsortedArr.push(idx))
+        
+        for (let i = 0; i < 8; i++) {
+            let arr = [arrDom[i].textContent, i]
+            unsortedArrVal.push(arr)
+        }
+    
+        formatSel('#create-swap-var', 'bgc', 'red')
+        await sleep(1000)
+        formatSel('#create-swap-var', 'bgc', '#F0AD4E')
+
+        for (var i = 0; i < unsortedArrVal.length; i++) {
+            if (generateArr) {
+                generateArr = false
+                break;
+            }
+            $('#min-val')[0].innerHTML = 'min Value: '
+
+            if (play) {
+                formatSel('#first-loop', 'bgc', 'red')
+            } else {
+                while(play == false) {
+                    if (generateArr) { 
+                    break;
+                    }              
+                    await sleep(1000)
+                }
+                if (generateArr) break;
+            }
+            await sleep(1000)
+
+            if (play) {
+                formatSel('#first-loop', 'bgc', '#F0AD4E')
+                formatSel('#assign-minInd', 'bgc', 'red')
+            } else {
+                while(play == false) {
+                    if (generateArr) { 
+                    break;
+                    }              
+                    await sleep(1000)
+                }
+                if (generateArr) break;
+            }
+
+            minIndex = i
+            await sleep(1000)
+
+            if (play) {
+                formatSel('#assign-minInd', 'bgc', '#F0AD4E')
+            } else {
+                while(play == false) {
+                    if (generateArr) { 
+                    break;
+                    }              
+                    await sleep(1000)
+                }
+                if (generateArr) break;
+            }
+            await sleep(1000)
+
+            if (play) {
+                formatSel(`#${unsortedArrVal[i][1]}`, 'border', 'red')
+                $(`#${unsortedArrVal[i][1]}`).animate({'top':'-=100px'})
+            } else {
+                while(play == false) {
+                    if (generateArr) { 
+                    break;
+                    }              
+                    await sleep(1000)
+                }
+                if (generateArr) break;
+            }
+            await sleep(1000)
+
+            for (let j = i + 1; j < unsortedArrVal.length; j++) {
+                if(generateArr) break;
+                    
+                if (play) {
+                    formatSel('#second-loop', 'bgc', 'red')
+                } else {
+                    while(play == false) {
+                    if (generateArr) { 
+                    break;
+                    }              
+                    await sleep(1000)
+                }
+                    if (generateArr) break;
+                }
+                await sleep(1000)
+                
+                if (play) {
+                    formatSel('#second-loop', 'bgc', '#F0AD4E')
+                    formatSel('#find-min-ind', 'bgc', 'red')
+                    formatSel(`#${unsortedArrVal[j][1]}`, 'border', 'red')
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                        break;
+                        }              
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+                await sleep(1000)
+                if (play) {
+                    formatSel('#find-min-ind', 'bgc', '#F0AD4E')
+                    formatSel(`#${unsortedArrVal[j][1]}`, 'border', 'black')
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                        break;
+                        }              
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+
+
+                if (parseInt(unsortedArrVal[j][0]) <= parseInt(unsortedArrVal[minIndex][0])) {
+                    if (play) {
+                        if (play) {
+                            formatSel('#re-assign-minInd', 'bgc', 'red')
+                        } else {
+                            while(play == false) {
+                                if (generateArr) { 
+                                break;
+                                }              
+                                await sleep(1000)
+                            }
+                            if (generateArr) break;
+                        }
+                        $('#min-val')[0].innerHTML = 'min Value: ' + `${unsortedArrVal[j][0]}`  
+                        await sleep(1000)
+                        minIndex = j
+                        if (play) {
+                            formatSel('#re-assign-minInd', 'bgc', '#F0AD4E')
+                        } else {
+                            while(play == false) {
+                                if (generateArr) { 
+                                break;
+                                }              
+                                await sleep(1000)
+                            }
+                            if (generateArr) break;
+                        }
+                    } else {
+                        while(play == false) {
+                            if (generateArr) { 
+                            break;
+                            }              
+                            await sleep(1000)
+                        }
+                        if (generateArr) break;
+                    }
+                }
+            }
+
+            if (i != minIndex) {
+                let iPosi = $(`#${unsortedArrVal[i][1]}`).position().left
+                let minPosi = $(`#${unsortedArrVal[minIndex][1]}`).position().left
+
+                if (play) {
+                    formatSel('#assign-temp', 'bgc', 'red')
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                        break;
+                        }              
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+                await sleep(1000)
+                if (play) {
+                    formatSel('#assign-temp', 'bgc', '#F0AD4E')
+                    formatSel(`#${unsortedArrVal[minIndex][1]}`, 'border', 'red')
+                    $(`#${unsortedArrVal[minIndex][1]}`).animate({'top':'-=100px'})
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                        break;
+                        }              
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+
+                await sleep(1000)
+                if (play) {
+                    formatSel('#assign-minIndx', 'bgc', 'red')
+                    formatSel('#assign-arrayi', 'bgc', 'red')
+                    $(`#${unsortedArrVal[i][1]}`).animate({'left':`+=${minPosi-iPosi}px`})
+                    $(`#${unsortedArrVal[minIndex][1]}`).animate({'left':`+=${iPosi-minPosi}px`})
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                        break;
+                        }              
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+                await sleep(1000)
+
+                if (play) {
+                    formatSel('#assign-minIndx', 'bgc', '#F0AD4E')
+                    formatSel('#assign-arrayi', 'bgc', '#F0AD4E')
+                    $(`#${unsortedArrVal[i][1]}`).animate({'top':'+=100px'}) 
+                    $(`#${unsortedArrVal[minIndex][1]}`).animate({'top':'+=100px'})
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                        break;
+                        }              
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+                await sleep(1000)
+
+                if (play) {
+                    formatSel(`#${unsortedArrVal[minIndex][1]}`, 'border', 'green')
+                    formatSel(`#${unsortedArrVal[i][1]}`, 'border', 'black')
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                        break;
+                        }              
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+                await sleep(1000)
+
+            } else if (i == minIndex && unsortedArrVal[minIndex][0] == unsortedArrVal[i][0]){
+
+                if (play) {
+                    formatSel('#assign-temp', 'bgc', 'red')
+                    formatSel('#assign-minIndx', 'bgc', 'red')
+                    formatSel('#assign-arrayi', 'bgc', 'red')
+                
+                    $(`#${unsortedArrVal[minIndex][1]}`).animate({'top':'+=100px'})
+                
+                    formatSel(`#${unsortedArrVal[minIndex][1]}`, 'border', 'green')
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                        break;
+                        }              
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+                await sleep(1000)
+                if (play) {
+                    formatSel('#assign-temp', 'bgc', '#F0AD4E')
+                    formatSel('#assign-minIndx', 'bgc', '#F0AD4E')
+                    formatSel('#assign-arrayi', 'bgc', '#F0AD4E')
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                        break;
+                        }              
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+            }
+            
+            temp = unsortedArrVal[minIndex]
+            unsortedArrVal[minIndex] = unsortedArrVal[i]
+            unsortedArrVal[i] = temp
+
+        }
+        formatSel('#fin-loop', bgc, 'red')
+        await sleep(1000);
+        formatSel('#fin-loop', bgc, '#F0AD4E')
+        play = false
+        clearAllbgc()
+    }
+}
+}
+
+
+var stepArr = []
+
+    function selectionSort() {
+        let unsortedArrVal = []
+        let unsortedArr = []
+        let arrDom = [...$('#digit')[0].children]
+        let temp = 1
+        let minIndex = 1
+        
+        arrDom.map(idx => unsortedArr.push(idx))
+        
+        for (let i = 0; i < 8; i++) {
+            let arr = [arrDom[i].textContent, i]
+            unsortedArrVal.push(arr)
+        }
+        var colorArr = ['black','black','black','black','black','black','black','black']
+
+        var stepObj = { 
+                count: 0, 
+                arr: [],
+                col:['black','black','black','black','black','black','black','black'] ,
+                top:null
+                
+            }
+
+        stepObj.count = count
+        stepObj.arr = Object.assign({}, unsortedArrVal)
+        stepArr.push(stepObj)
+        count++
+
+        for (var i = 0; i < unsortedArrVal.length; i++) {
+            minIndex = i
+            var stepObj = { 
+                count: count, 
+                arr: [],
+                col:colorArr,
+                top:i
+            }
+            colorArr[i] = 'red'
+            
+            for (let j = i + 1; j < unsortedArrVal.length; j++) {
+                if (parseInt(unsortedArrVal[j][0]) <= parseInt(unsortedArrVal[minIndex][0])) {          
+                    minIndex = j
+                }
+            }
+            colorArr[minIndex] = 'red'
+            stepObj.col = Object.assign({},colorArr)
+            stepObj.arr = Object.assign({}, unsortedArrVal)
+            stepArr.push(stepObj)
+            count++
+
+            temp = unsortedArrVal[minIndex]
+            unsortedArrVal[minIndex] = unsortedArrVal[i]
+            unsortedArrVal[i] = temp
+
+            if(i != minIndex) {
+                var stepObj = { 
+                    count: count, 
+                    arr: [],
+                    col:colorArr,
+                    top:null
+                }
+                colorArr[i] = 'red'
+                colorArr[minIndex] = 'red'
+                stepObj.col = Object.assign({},colorArr)
+                stepObj.arr = Object.assign({}, unsortedArrVal)
+                stepArr.push(stepObj)
+                count++
+            }
+            var stepObj = { 
+                    count: count, 
+                    arr: [],
+                    col:colorArr,
+                    top:null
+                }
+                colorArr[minIndex] = 'black'
+                colorArr[i] = 'green'
+                stepObj.col = Object.assign({},colorArr)
+                stepObj.arr = Object.assign({}, unsortedArrVal)
+                stepArr.push(stepObj)
+                count++
+        }
+        play = false
+    }
+
+
+
+
+function preLoop() {
+    if (step != 0) {
+        step--
+        $('#input-error')[0].textContent = 'Last'
+        $('#input-error')[0].style.color = 'red'
+        let unsortedArrVal = stepArr[step].arr
+
+        $('.num-card').remove()
+        for (let j = 0; j < 8; j++) {
+            let context = ''
+            if(stepArr[step].top != j) {
+                context = `<div class='num-card' style='border-color:${stepArr[step].col[j]}'>
+                            ${unsortedArrVal[j][0]}</div>`
+            } else { 
+                context = `<div class='num-card' 
+                            style='position:relative; top:50px; border-color:${stepArr[step].col[j]}'>
+                            ${unsortedArrVal[j][0]}</div>`
+            }
+            $('#digit').append(context)
+        }
+    } else {
+        $('#input-error')[0].textContent = 'It is the initial array.'
+        $('#input-error')[0].style.color = 'red'
+    }
+}
+
+
+function nextLoop() {
+    if (step != count-1) {
+        step++
+        $('#input-error')[0].textContent = 'Next'
+        $('#input-error')[0].style.color = 'red'
+        let unsortedArrVal = stepArr[step].arr
+
+        $('.num-card').remove()
+        for (let j = 0; j < 8; j++) {
+            let context = ''
+            if(stepArr[step].top != j){
+                context = `<div class='num-card' style='border-color:${stepArr[step].col[j]}'>
+                            ${unsortedArrVal[j][0]}</div>`
+            }
+            else{ 
+                context = `<div class='num-card' style='position:relative; top:50px; border-color:
+                            ${stepArr[step].col[j]}'>${unsortedArrVal[j][0]}</div>`
+             }
+            $('#digit').append(context)
+        }
+        
+    } else {
+        $('#input-error')[0].textContent = 'It is the final array.'
+        $('#input-error')[0].style.color = 'red'
+    }
+}
+
+</script>

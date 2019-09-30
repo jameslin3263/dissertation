@@ -1,0 +1,125 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.main{
+    width: 100%;
+    height: 90%;
+    position: absolute;
+}
+
+.one-forth {
+    width: 50%;
+    height: 50%;
+    float: left;
+}
+
+.describtion {
+    background-color: #5bc0ded9;
+}
+
+.describtion > div {
+    font-size:20px;
+    padding: 20px 25px;
+}
+
+.top-right {
+    background-color: #b8a65ca1;
+}
+
+.pseudocode {
+    background-color: #F0AD4E;
+    padding: 20px 25px;
+    font-size: 18px;
+}
+.pseudocode > div {
+    padding-left: 30px;
+}
+.pseudocode > div > div {
+    padding-left: 30px;
+}
+.pseudocode > div > div > div {
+    padding-left: 30px;
+}
+
+.animation {
+    background-color: #FFC706;
+}
+
+h1, h2{
+    text-align: center
+}
+
+span {
+    font-weight: bolder
+}
+
+#information {
+    text-align: center
+}
+
+#digit {
+    text-align: center;
+    position: relative;
+}
+#temp-val, #min-val {
+    font-size: 26px;
+    position: relative;
+    top:180px;
+    text-align: center;
+}
+
+.num-card {
+    text-align: center;
+    height:70px;
+    width:70px;
+    line-height: 70px;
+    margin: 10px;
+    float: left;
+    position: relative;
+    top: 100px;
+    left: 30px;
+    border: black solid 3px;
+}
+#inputs {
+    text-align: center;
+    position: relative;
+    top:50px;
+}
+
+#input-error {
+    position: relative;
+    top:-10px;
+    font-size: 20px;
+    font-weight: bolder;
+}
+#color-panel-content{
+    text-align: center;
+    position: relative;
+    top: 80px;
+    border: 2px solid black
+}
+#color-panel > div {
+    font-size:18px
+}
+
+#black > span {
+    color:black
+}
+
+#red > span {
+    color: red
+}
+#green > span {
+    color:green
+}
+#pause:active{
+
+    animation-play-state: paused;
+}
+
+#buttons {
+    position: relative;
+    top:30px;
+    text-align: center
+}

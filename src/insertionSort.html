@@ -1,0 +1,688 @@
+
+    <h1>Insertion sorting algorithm</h1>
+    <div class="main">
+        <div class="one-forth pseudocode">
+            <div id='outer-loop'>for var <span>'i = 1'</span> to limit <span>'array.length'</span><br><br></div>
+            <div>
+                <div id='create-value'>var <span>'value'</span> = <span>array[i]</span> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp// pick the element to do comparison <br></div>
+                <div id='create-j'>var <span>'j'</span> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp// used to compare the element in the second for loop<br><br></div>
+                
+                <div id='inner-loop'>for var <span>'j = i; j--'</span> to compare sorted part of the array<br></div>
+                <div>
+                    <div id='compare-value'>if <span>array[j-1]</span> < <span>'value'</span> then <br></div>
+                        <div id='finish-loop'>finish the second loop</div>
+                    else <br>
+                        <div id='swap-index'><span>array[j]</span> = <span>array[j-1]</span></div>
+                    <br>
+                </div>
+                <div id='swap-value'> <span>array[j]</span> = <span>value</span><br><br></div>
+            </div>
+            <div id='end-loop'>End</div>
+        </div>
+        <div class="one-forth animation">
+            <div id="digit">
+
+            </div>
+            <div id='temp-val'>
+                
+            </div>
+        </div>
+        <div class="one-forth describtion">
+            <div>
+                <p>Insertion sort separates the array into two segments: sorted and unsorted, and 
+                it will always begin to implement from the left side of the array, 
+                and default setting the first element in the array is sorted. </p>
+                <p>In each iteration, the first element in the unsort part of the array 
+                will be assigned to a variable 'value' and every sorted elements that will follow value, 
+                will move one position to the right to generate a position for 'value'. </p>
+                <p>Therefore, the algorithm should include two layers of for loop.
+                The outer one is used to pick the next unsorted element that will be assigned to 'value' to compare with sorted elements,
+                which will be implemented in the inner one.</p>
+            </div>
+        </div>
+        <div class="one-forth top-right">
+            <div>
+                <div id="buttons">
+                    <button id='handle' onclick="stepMode()" class="ui button">   
+                        Step-by-Step
+                    </button>
+                    <button id='film' onclick="continueMode()" class="ui button">
+                        Continuous
+                    </button>
+                    <button id='play' onclick="letPlay()" class="ui button">
+                        <i class="play icon"></i>
+                        Play
+                    </button>
+                    <button id='pause' onclick="pauseAni()" class="ui button">
+                        <i class="pause icon"></i>
+                        Pause
+                    </button>
+                    <button id='pre' onclick="preLoop()" class="ui button">
+                        <i class="step backward icon"></i>
+                        Pre
+                    </button>
+                    <button id='next' onclick="nextLoop()" class="ui button">
+                        <i class="step forward icon"></i>
+                        Next
+                    </button>
+                    <button id='clearHandle' onclick="clearDataInStep()" class="ui button">
+                        <i class="trash icon"></i>
+                        Clear
+                    </button>
+                    <button id='clearFilm' onclick="clearDataInContinue()" class="ui button">
+                            <i class="trash icon"></i>
+                        Clear
+                    </button>
+                    <button id='reset' onclick="reset()" class="ui button">
+                        <i class="redo icon"></i>
+                        Reset
+                    </button>
+                </div>
+            <div id="inputs">
+                <div id="input-error">Please insert value to input.</div>
+                <div id='input-handler'>
+                    <div class="ui input">
+                        <input id="array-input" type="text">
+                    </div>
+                    <button class="ui pink button"onclick="generateRandomArray()">Random</button>
+                    <button id='generateArr' class="ui primary button" onclick="generateArray()">Generate</button>
+                </div>
+            </div>
+            <div id="color-panel">
+                <div id='color-panel-content'>
+                <h2>Color panel</h2>
+                <div>
+                    <div>Note: The colors' meaning in the animation are relative to the bottom explantion</div><br>
+                    <div id="black">
+                        <span>Black Box: </span> Unsorted part
+                    </div>
+                    <div id="green">
+                        <span>Green Box: </span> Sorted part
+                    </div>
+                    <div id="red">
+                        <span>Red Box: </span> Current comparison
+                    </div>
+                </div>
+                <div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+    var count = 0
+    var step = 0
+    var initialArr = []
+        function continueMode() {
+            $('#play').show()
+            $('#pause').hide()
+            $('#film').hide()
+            $('#pre').hide()
+            $('#next').hide()
+            $('#handle').show()
+            $('#reset').show()
+            $('#input-handler').show()
+            $('#clearFilm').show()
+            $('#clearHandle').hide()
+            generateArr = true
+            $('#input-error')[0].textContent = 'Please insert EIGHT numbers or click Random button.'
+            $('#input-error')[0].style.color = 'black'
+            reset()
+        }
+
+        function stepMode () {
+            $('#pre').show()
+            $('#next').show()
+            $('#stop').hide()
+            $('#film').show()
+            $('#handle').hide()
+            $('#play').hide()
+            $('#pause').hide()
+            $('#reset').show()
+            $('#input-handler').show()
+            $('#clearHandle').show()
+            $('#clearFilm').hide()
+            generateArr = true
+            step = 0
+  
+            $('#input-error')[0].textContent = 'Please insert EIGHT numbers or click Random button.'
+            $('#input-error')[0].style.color = 'black'
+            reset()
+        }
+
+        function clearAllBgc () {
+            $('#outer-loop')[0].style.backgroundColor = '#F0AD4E'
+            $('#create-value')[0].style.backgroundColor = '#F0AD4E'
+            $('#create-j')[0].style.backgroundColor = '#F0AD4E'
+            $('#inner-loop')[0].style.backgroundColor = '#F0AD4E'
+            $('#compare-value')[0].style.backgroundColor = '#F0AD4E'
+            $('#finish-loop')[0].style.backgroundColor = '#F0AD4E'
+            $('#swap-index')[0].style.backgroundColor = '#F0AD4E'
+            $('#swap-value')[0].style.backgroundColor = '#F0AD4E'
+            $('#end-loop')[0].style.backgroundColor = '#F0AD4E'
+        }
+
+        function clearDataInStep() {
+            $('#generateArr').show()
+            $('.num-card').remove()
+            step = 0
+            
+            generateArr = true
+            $('#input-error')[0].textContent = 'Clear'
+            $('#input-error')[0].style.color = 'red'
+        }
+
+        function clearDataInContinue() {
+            $('#generateArr').show()
+            $('.num-card').remove()
+            
+            clearAllBgc()
+            play = false
+            generateArr = true
+            firstClick = true
+            $('#play').show()
+            $('#pause').hide()
+            $('#input-error')[0].textContent = 'Clear'
+            $('#input-error')[0].style.color = 'red'
+        }
+
+        function reset() {
+            if (initialArr.length != 0) {
+                play = false
+                generateArr = true
+                firstClick = true
+                clearAllBgc()
+                $('.num-card').remove()
+                step = 0
+                for (let i = 0; i < 8 ;i++) {
+                    let context = `<div id='${i}' class='num-card'>${initialArr[i]}</div>`
+                    $('#digit').append(context)
+                }
+                $('#input-error')[0].textContent = 'Reset'
+                $('#input-error')[0].style.color = 'red'
+                $('#generateArr').hide()
+            }
+        }
+
+function generateArray() {
+    let msg = ''
+    let inputValue = $('#array-input')[0].value
+    let inputStyle = $('#input-error')[0].style.color
+
+    if (inputValue == "") {
+        msg = "The input cannot be empty, Please insert value!"
+        $('#input-error')[0].style.color = 'red'
+    } else if (inputValue.split(",").length < 8) {
+        msg = "Please insert at least EIGHT value!"
+        $('#input-error')[0].style.color = 'red'
+    } else if (inputValue.split(",").length > 8) {
+        msg = "Please do not insert over EIGHT value!"
+        $('#input-error')[0].style.color = 'red'
+    } else if (inputValue.split(",").length == 8) {
+        let arr = inputValue.split(",")
+        const patt = /[0-9]+/
+        let checkType = true
+
+        arr.map(num => { if (!num.match(patt)) checkType = false })
+
+        if (checkType == false) {
+            msg = "Please insert Integer!"
+            $('#input-error')[0].style.color = 'red'
+        } else {
+            initialArr = arr
+            msg = "Valid"
+            $('#input-error')[0].style.color = 'green'
+            $('.num-card').remove()
+            for (let i = 0; i < 8 ;i++) {
+                let context = `<div id='${i}' class='num-card'>${arr[i]}</div>`
+                $('#digit').append(context)
+            }
+            count = 0
+            stepArr = []
+            firstClick = true
+            insertionSort()
+            play = false
+            generateArr = false
+            $('#generateArr').hide()
+            clearAllBgc()
+        }
+    }
+    $('#input-error')[0].textContent = msg
+}
+
+function generateRandomArray() {
+    let arr = []
+    for (let i = 0; i < 8; i++) {
+        // reference from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+        arr.push(Math.floor(Math.random() * Math.floor(100)))
+    }
+    $('#array-input')[0].value = arr
+}
+
+function formater(domEle, prop, color) {
+    if (prop == border) {
+        $(domEle)[0].style.borderColor = color
+    } else if (prop == bgc) {
+        $(domEle)[0].style.backgroundColor = color
+    }
+}
+
+
+function letPlay() {
+    clearAllBgc()
+    if (!$('.num-card')[0]) {
+        $('#input-error')[0].textContent = 'Please generate the array first.'
+        $('#input-error')[0].style.color = 'red'
+    } else {
+        play = true 
+        generateArr = false
+        $('#input-error')[0].textContent = 'Play'
+        $('#input-error')[0].style.color = 'green'
+        if (firstClick) insSort()
+        firstClick = false
+
+        $('#pause').show()
+        $('#play').hide()
+    }
+}
+
+function pauseAni() {
+    play = false
+    generateArr = false
+    $('#input-error')[0].textContent = 'Pause'
+    $('#input-error')[0].style.color = 'red'
+    $('#play').show()
+    $('#pause').hide()
+}
+
+async function breakWhile() {
+    while(play == false) {
+        if (generateArr) { 
+           break;
+        }
+        await sleep(1000)
+    }
+}
+
+async function insSort() {
+    if (play == false) play = true 
+    if (play == true) {
+        if (!$('.num-card')[0]) {
+            $('#input-error')[0].textContent = 'Please generate the array first.'
+            $('#input-error')[0].style.color = 'red'
+        } else if ($('.num-card')[0]) {
+
+            let unsortedArrVal = []
+            let unsortedArr = []
+            let arrDom = [...$('#digit')[0].children]
+            
+            arrDom.map(idx => unsortedArr.push(idx))
+            
+            for (let i = 0; i < 8; i++) {
+                let arr = [arrDom[i].textContent, i]
+                unsortedArrVal.push(arr)
+            }
+
+            for (let i = 1; i < unsortedArr.length; i++) {
+         
+                if (generateArr) {
+                    generateArr=false
+                    break;
+                }
+                if (play) {
+                    formater('#outer-loop', bgc, 'red')
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                            break;
+                        }
+                        await sleep(1000)
+                    }
+                    if (generateArr) break;
+                }
+                await sleep(1000);
+                if (play) {
+                    formater('#outer-loop', bgc, '#F0AD4E')
+                    formater('#create-value', bgc, 'red')
+                    formater('#create-j', bgc, 'red')
+                } else {
+                    while(play == false) {
+                        if (generateArr) { 
+                            break;
+                        }
+                        await sleep(1000)
+                    }
+                    if(generateArr) break;  
+                }
+                
+                for (let j = i; j > 0; j--) {
+                    if(generateArr) break;
+                    let val = unsortedArrVal[j]
+                    let tempVal = unsortedArr[j]
+
+                    $('#temp-val')[0].innerHTML = 'Value: ' + `${val[0]}`   
+                    await sleep(1000);
+
+                    if (play) {
+                        formater('#create-value', bgc, '#F0AD4E')
+                        formater('#create-j', bgc, '#F0AD4E')
+                    } else {
+                        while(play == false) {
+                            if (generateArr) { 
+                                break;
+                            }
+                            await sleep(1000)
+                        }
+                       if(generateArr) break;
+                    }
+                    await sleep(1000);
+                    
+                    if (play) {
+                        formater('#inner-loop', bgc, 'red')
+                    } else {
+                        while(play == false) {
+                            if (generateArr) { 
+                                break;
+                            }
+                            await sleep(1000)
+                        }
+                       if(generateArr) break;
+                    }
+                    await sleep(1000);
+                    if (play) {
+                        formater('#inner-loop', bgc, '#F0AD4E')                   
+                        formater('#compare-value', bgc, 'red')                   
+                        formater(`#${unsortedArrVal[j-1][1]}`, border, 'red')                   
+                        formater(`#${unsortedArrVal[j][1]}`, border, 'red')
+                    } else {
+                        while(play == false) {
+                            if (generateArr) { 
+                                break;
+                            }
+                            await sleep(1000)
+                        }
+                       if(generateArr) break;
+                    }
+                    
+                    await sleep(1000);
+                    if (play) {
+                        formater('#compare-value', bgc, '#F0AD4E')
+                    } else {
+                        while(play == false) {
+                            if (generateArr) { 
+                                break;
+                            }
+                            await sleep(1000)
+                        }
+                        if(generateArr) break;
+                    }
+                    if (parseInt(unsortedArrVal[j-1][0]) <= parseInt(val[0])) {
+                        if (play) {
+                            formater(`#${unsortedArrVal[j-1][1]}`, border, 'green')
+                            formater(`#${unsortedArrVal[j][1]}`, border, 'green')
+                            formater('#finish-loop', bgc, 'red')
+                        } else {
+                            while(play == false) {
+                                if (generateArr) { 
+                                    break;
+                                }
+                                await sleep(1000)
+                            }
+                            if (generateArr) break;
+                        }
+                        await sleep(1000);
+                        if (play) {
+                            formater('#finish-loop', bgc, '#F0AD4E')
+                        } else {
+                            while(play == false) {
+                                if (generateArr) { 
+                                    break;
+                                }
+                                await sleep(1000)
+                            }
+                            if (generateArr) break;
+                        }
+                        break;
+                    } else {
+                        if (play) {
+                            formater('#swap-index', bgc, 'red')
+                            $(`#${unsortedArrVal[j][1]}`).animate({'top':'-=100px'}, 400)
+                            $(`#${unsortedArrVal[j-1][1]}`).animate({'left':`+=90px`}, 400)
+                            $(`#${unsortedArrVal[j][1]}`).animate({'left':`-=90px`}, 400)
+                            $(`#${unsortedArrVal[j][1]}`).animate({'top':'+=100px'}, 400)  
+                        } else {
+                            while(play == false) {
+                                if (generateArr) { 
+                                    break;
+                                }
+                                await sleep(1000)
+                            }
+                            if(generateArr) break;
+                        } 
+
+                        await sleep(2000);
+                        if (play){
+                            formater('#swap-index', bgc, '#F0AD4E')
+                            formater('#swap-value', bgc, 'red')
+                        } else {
+                            while(play == false) {
+                                if (generateArr) { 
+                                    break;
+                                }
+                                await sleep(1000)
+                            }
+                            if(generateArr) break;
+                        }
+                       
+                        val = unsortedArrVal[j]
+                        unsortedArrVal[j] = unsortedArrVal[j-1]                            
+                        unsortedArrVal[j-1] = val
+
+                        if (play) {
+                            formater(`#${unsortedArrVal[j][1]}`, border, 'green')
+                            if (j == 1) {
+                                formater(`#${unsortedArrVal[j-1][1]}`, border, 'green')
+                            } else {
+                                formater(`#${unsortedArrVal[j-1][1]}`, border, 'red')
+                            }
+                        } else {
+                            while(play == false) {
+                                if (generateArr) { 
+                                    break;
+                                }
+                                await sleep(1000)
+                            }
+                            if(generateArr) break;
+                        }
+                        await sleep(2000);
+                        
+                        if(play) {
+                            formater('#swap-value', bgc, '#F0AD4E')
+                        } else {
+                            while(play == false) {
+                                if (generateArr) { 
+                                    break;
+                                }
+                                await sleep(1000)
+                            }
+                            if(generateArr) break;
+                        }
+                    }
+                }
+            }
+            formater('#end-loop', bgc, 'red')
+            await sleep(1000);
+            formater('#end-loop', bgc, '#F0AD4E')
+        }
+        play = false
+        clearAllBgc()
+    }
+
+}
+        
+var stepArr = []
+
+
+function insertionSort() {
+    let unsortedArrVal = []
+    let unsortedArr = []
+    let arrDom = [...$('#digit')[0].children]
+    
+    arrDom.map(idx => unsortedArr.push(idx))
+    
+    for (let i = 0; i < 8; i++) {
+        let arr = [arrDom[i].textContent, i]
+        unsortedArrVal.push(arr)
+    }
+    var colorArr = ['black','black','black','black','black','black','black','black']
+
+    var stepObj = { 
+        count: 0, 
+        arr: [],
+        col:['black','black','black','black','black','black','black','black'] ,
+        top:null
+        
+    }
+
+    stepObj.count = count
+    stepObj.arr = Object.assign({}, unsortedArrVal)
+    stepArr.push(stepObj)
+    count++
+
+    for (let i = 1; i < unsortedArr.length; i++) {
+        colorArr[i] = 'red'
+
+        for (let j = i; j > 0; j--) {  
+            let val = unsortedArrVal[j]
+            let tempVal = unsortedArr[j]
+
+            var stepObj = { 
+                count: count, 
+                arr: [],
+                col:colorArr,
+                top:j
+            }
+            if (j-1 >= 0) {
+                colorArr[j-1] = 'red'
+                stepObj.col = Object.assign({},colorArr)
+                stepObj.arr = Object.assign({}, unsortedArrVal)
+                stepArr.push(stepObj)
+                count++
+            } 
+
+            if (parseInt(unsortedArrVal[j-1][0]) <= parseInt(val[0])) {
+                var stepObj = { 
+                    count: count, 
+                    arr: [],
+                    col:colorArr,
+                    top:null
+                }
+                colorArr[j] = 'green'
+                colorArr[j-1] = 'green'
+
+                stepObj.count = count
+                stepObj.col = Object.assign({},colorArr)
+                stepObj.arr = Object.assign({}, unsortedArrVal)
+
+                stepArr.push(stepObj)
+
+                count++
+                break;
+            } else {
+
+                val = unsortedArrVal[j]
+                unsortedArrVal[j] = unsortedArrVal[j-1]                            
+                unsortedArrVal[j-1] = val
+
+                var stepObj = { 
+                    count: count, 
+                    arr: [],
+                    col:colorArr,
+                    top:j-1
+                }
+                
+                colorArr[j] = 'green'
+                colorArr[j-1] = 'red'
+                
+                stepObj.count = count
+                stepObj.arr = Object.assign({}, unsortedArrVal)
+                stepObj.col = Object.assign({}, colorArr)
+                
+                stepArr.push(stepObj)
+                count++   
+
+                if(j-1 == 0) {
+                    var stepObj = { 
+                        count: count, 
+                        arr: [],
+                        col:colorArr,
+                        top:null
+                    }
+                    colorArr[j-1] = 'green'
+                    
+                    stepObj.count = count
+                    stepObj.arr = Object.assign({}, unsortedArrVal)
+                    stepObj.col = Object.assign({}, colorArr)
+                    
+                    stepArr.push(stepObj)
+                    count++   
+                }
+            }
+        }
+    }
+    return stepArr
+}
+
+
+function preLoop() {
+    if (step != 0) {
+        step--
+        let unsortedArrVal = stepArr[step].arr
+        $('#input-error')[0].textContent = 'Last'
+        $('#input-error')[0].style.color = 'red'
+        
+        $('.num-card').remove()
+        for (let j = 0; j < 8; j++) {
+            let context = ''
+            if(stepArr[step].top != j){
+                context = `<div class='num-card' style='border-color:${stepArr[step].col[j]}'>${unsortedArrVal[j][0]}</div>`
+            }
+            else{ 
+                context = `<div class='num-card' style='position:relative; top:50px; border-color:${stepArr[step].col[j]}'>${unsortedArrVal[j][0]}</div>`
+                }
+            $('#digit').append(context)
+        }
+    } else {
+        $('#input-error')[0].textContent = 'It is the initial array.'
+        $('#input-error')[0].style.color = 'red'
+    }
+}
+
+
+function nextLoop() {
+    if (step != count-1) {
+        step++
+        
+        let unsortedArrVal = stepArr[step].arr
+        $('#input-error')[0].textContent = 'Next'
+        $('#input-error')[0].style.color = 'red'
+        
+        $('.num-card').remove()
+        for (let j = 0; j < 8; j++) {
+            let context = ''
+            if(stepArr[step].top != j){
+                context = `<div class='num-card' style='border-color:${stepArr[step].col[j]}'>${unsortedArrVal[j][0]}</div>`
+            }
+            else{ 
+                context = `<div class='num-card' style='position:relative; top:50px; border-color:${stepArr[step].col[j]}'>${unsortedArrVal[j][0]}</div>`
+                }
+            $('#digit').append(context)
+        }
+    } else {
+        $('#input-error')[0].textContent = 'It is the final array.'
+        $('#input-error')[0].style.color = 'red'
+    }
+
+}
+
+    </script>
